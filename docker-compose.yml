@@ -1,0 +1,267 @@
+version: "3.9"
+
+# =================================================================
+#  YOBALEEMA — Orchestration microservices (Docker Compose)
+#
+#  Architecture :
+#    Infrastructure : PostgreSQL (x6 DBs) · Redis · RabbitMQ · Nginx
+#    Services       : API Gateway · Auth · User · Parcel · Trip
+#                     Matching · Notification
+#    Frontend       : React/Vite
+#
+#  Lancer : docker-compose up --build
+#  Stopper : docker-compose down -v  (supprime aussi les volumes)
+# =================================================================
+
+services:
+
+  # ---------------------------------------------------------------
+  #  INFRASTRUCTURE
+  # ---------------------------------------------------------------
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: yoba_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: yoba
+      POSTGRES_PASSWORD: yoba_secret
+      POSTGRES_DB: yoba_auth       # DB par défaut (les autres créées par init.sql)
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yoba"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: yoba_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: yoba_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: yoba
+      RABBITMQ_DEFAULT_PASS: yoba_secret
+      RABBITMQ_DEFAULT_VHOST: yobaleema
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # Dashboard → http://localhost:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  # ---------------------------------------------------------------
+  #  API GATEWAY  →  http://localhost:4000
+  # ---------------------------------------------------------------
+
+  api-gateway:
+    build: ./services/api-gateway
+    container_name: yoba_gateway
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      NODE_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-yoba_jwt_secret_change_in_prod}
+      REDIS_URL: redis://redis:6379
+      # URLs internes (réseau Docker)
+      AUTH_URL:         http://auth-service:4001
+      USER_URL:         http://user-service:4002
+      PARCEL_URL:       http://parcel-service:4003
+      TRIP_URL:         http://trip-service:4004
+      MATCHING_URL:     http://matching-service:4005
+      NOTIFICATION_URL: http://notification-service:4006
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------
+  #  AUTH SERVICE  (port interne 4001)
+  # ---------------------------------------------------------------
+
+  auth-service:
+    build: ./services/auth-service
+    container_name: yoba_auth
+    restart: unless-stopped
+    environment:
+      PORT: 4001
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_auth
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+      JWT_SECRET: ${JWT_SECRET:-yoba_jwt_secret_change_in_prod}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-yoba_refresh_secret_change_in_prod}
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  USER SERVICE  (port interne 4002)
+  # ---------------------------------------------------------------
+
+  user-service:
+    build: ./services/user-service
+    container_name: yoba_users
+    restart: unless-stopped
+    environment:
+      PORT: 4002
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_users
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  PARCEL SERVICE  (port interne 4003)
+  # ---------------------------------------------------------------
+
+  parcel-service:
+    build: ./services/parcel-service
+    container_name: yoba_parcels
+    restart: unless-stopped
+    environment:
+      PORT: 4003
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_parcels
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  TRIP SERVICE  (port interne 4004)
+  # ---------------------------------------------------------------
+
+  trip-service:
+    build: ./services/trip-service
+    container_name: yoba_trips
+    restart: unless-stopped
+    environment:
+      PORT: 4004
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_trips
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  MATCHING SERVICE  (port interne 4005)
+  # ---------------------------------------------------------------
+
+  matching-service:
+    build: ./services/matching-service
+    container_name: yoba_matching
+    restart: unless-stopped
+    environment:
+      PORT: 4005
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_matching
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+      REDIS_URL: redis://redis:6379
+      MAX_DETOUR_PERCENT: 15
+      MAX_PICKUP_RADIUS_KM: 30
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  NOTIFICATION SERVICE  (port interne 4006)
+  # ---------------------------------------------------------------
+
+  notification-service:
+    build: ./services/notification-service
+    container_name: yoba_notifs
+    restart: unless-stopped
+    environment:
+      PORT: 4006
+      NODE_ENV: development
+      DATABASE_URL: postgresql://yoba:yoba_secret@postgres:5432/yoba_notifications
+      RABBITMQ_URL: amqp://yoba:yoba_secret@rabbitmq:5672/yobaleema
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: ${SMTP_HOST:-smtp.mailtrap.io}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      FROM_EMAIL: no-reply@yobaleema.fr
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------
+  #  FRONTEND React (Vite)  →  http://localhost:3000
+  # ---------------------------------------------------------------
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: yoba_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:4000
+      VITE_WS_URL: ws://localhost:4000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api-gateway
+
+# ---------------------------------------------------------------
+#  VOLUMES
+# ---------------------------------------------------------------
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
