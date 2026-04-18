@@ -26,7 +26,7 @@ services:
     environment:
       POSTGRES_USER: yoba
       POSTGRES_PASSWORD: yoba_secret
-      POSTGRES_DB: yoba_auth       # DB par défaut (les autres créées par init.sql)
+      POSTGRES_DB: postgres       # DB par défaut (les autres créées par init.sql)
     ports:
       - "5432:5432"
     volumes:

@@ -25,8 +25,8 @@ function Field({ label, inputType = 'text', error, rightEl, ...rest }) {
       </div>
       <div className="relative">
         <input
-          {...rest}                                              {/* ref, name, onChange, onBlur de register() */}
-          type={isPwd ? (show ? 'text' : 'password') : inputType}  {/* type appliqué EN DERNIER */}
+          {...rest}
+          type={isPwd ? (show ? 'text' : 'password') : inputType}
           className={`w-full bg-white border rounded-lg px-4 py-3.5 text-sm text-yoba-charcoal
                       placeholder-yoba-gray-dark/50 outline-none transition-all duration-200
                       focus:border-brown focus:ring-2 focus:ring-brown/10
