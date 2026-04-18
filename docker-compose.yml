@@ -33,7 +33,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./infrastructure/postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U yoba"]
+      test: ["CMD-SHELL", "pg_isready -U yoba -d postgres"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -98,6 +98,9 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+      auth-service:
+        condition: service_started
+        
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:4000/health || exit 1"]
       interval: 10s
