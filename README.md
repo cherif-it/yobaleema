@@ -214,110 +214,175 @@ npm run dev
 | Container    | Docker, Docker Compose                  |
 
 
-
-
-
-
 ## fist fix
-traoreamadoucherifjuniordiop@cherif-macbook-pro yobaleema % docker-compose up --build
-WARN[0000] /Users/traoreamadoucherifjuniordiop/web/yobaleema/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
-[+] Building 3.3s (44/52)                                                                                                                                                         
+
+traoreamadoucherifjuniordiop@cherif-macbook-pro yobaleema % docker-compose up --build WARN[0000] /Users/traoreamadoucherifjuniordiop/web/yobaleema/docker-compose.yml: the attribute version is obsolete, it will be ignored, please remove it to avoid potential confusion [+] Building 3.3s (44/52)
+=> [internal] load local bake definitions 0.0s => => reading from stdin 3.14kB 0.0s => [matching-service internal] load build definition from Dockerfile 0.0s => => transferring dockerfile: 274B 0.0s => [frontend internal] load build definition from Dockerfile.dev 0.0s => => transferring dockerfile: 274B 0.0s => [api-gateway internal] load build definition from Dockerfile 0.0s => => transferring dockerfile: 274B 0.0s => [notification-service internal] load build definition from Dockerfile 0.0s => => transferring dockerfile: 274B 0.0s => [parcel-service internal] load build definition from Dockerfile 0.0s => => transferring dockerfile: 274B 0.0s => [auth-service internal] load build definition from Dockerfile 0.1s => => transferring dockerfile: 274B 0.0s => [trip-service internal] load build definition from Dockerfile 0.1s => => transferring dockerfile: 274B 0.0s => [user-service internal] load build definition from Dockerfile 0.1s => => transferring dockerfile: 274B 0.0s => [notification-service internal] load metadata for docker.io/library/node:20-alpine 0.6s => [trip-service internal] load .dockerignore 0.1s => => transferring context: 2B 0.0s => [frontend internal] load .dockerignore 0.0s => => transferring context: 2B 0.0s => [notification-service internal] load .dockerignore 0.1s => => transferring context: 2B 0.0s => [auth-service internal] load .dockerignore 0.0s => => transferring context: 2B 0.0s => [matching-service internal] load .dockerignore 0.1s => => transferring context: 2B 0.0s => [api-gateway internal] load .dockerignore 0.0s => => transferring context: 2B 0.0s => [user-service internal] load .dockerignore 0.1s => => transferring context: 2B 0.0s => [parcel-service internal] load .dockerignore 0.0s => => transferring context: 2B 0.0s => [notification-service 1/5] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s => [frontend internal] load build context 0.1s => => transferring context: 112.95kB 0.0s => [parcel-service internal] load build context 0.0s => => transferring context: 10.08kB 0.0s => [matching-service internal] load build context 0.1s => => transferring context: 9.47kB 0.0s => [trip-service internal] load build context 0.1s => => transferring context: 8.87kB 0.0s => [user-service internal] load build context 0.1s => => transferring context: 9.88kB 0.0s => [api-gateway internal] load build context 0.1s => => transferring context: 10.59kB 0.0s => [auth-service internal] load build context 0.1s => => transferring context: 10.85kB 0.0s => [notification-service internal] load build context 0.1s => => transferring context: 12.66kB 0.0s => CACHED [parcel-service 2/5] WORKDIR /app 0.0s => [matching-service 3/5] COPY package*.json ./ 0.1s => [parcel-service 3/5] COPY package*.json ./ 0.0s => [frontend 3/5] COPY package*.json ./ 0.1s => [user-service 3/5] COPY package*.json ./ 0.1s => [api-gateway 3/5] COPY package*.json ./ 0.1s => [notification-service 3/5] COPY package*.json ./ 0.1s => [auth-service 3/5] COPY package*.json ./ 0.1s => [trip-service 3/5] COPY package*.json ./ 0.1s => ERROR [parcel-service 4/5] RUN npm ci --only=production 1.3s => CANCELED [matching-service 4/5] RUN npm ci --only=production 1.5s => CANCELED [frontend 4/5] RUN npm install 1.5s => CANCELED [notification-service 4/5] RUN npm ci --only=production 1.5s => CANCELED [api-gateway 4/5] RUN npm ci --only=production 1.5s => CANCELED [auth-service 4/5] RUN npm ci --only=production 1.5s => CANCELED [user-service 4/5] RUN npm ci --only=production 1.5s => CANCELED [trip-service 4/5] RUN npm ci --only=production 1.5s
+[parcel-service 4/5] RUN npm ci --only=production: 0.456 npm warn config only Use --omit=dev to omit dev dependencies from the install. 1.255 npm error code EUSAGE 1.256 npm error 1.256 npm error The npm ci command can only install with an existing package-lock.json or 1.256 npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or 1.256 npm error later to generate a package-lock.json file, then try again. 1.256 npm error 1.256 npm error Clean install a project 1.256 npm error 1.256 npm error Usage: 1.256 npm error npm ci 1.256 npm error 1.256 npm error Options: 1.256 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling] 1.256 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]] 1.256 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]] 1.256 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit] 1.256 npm error [--no-bin-links] [--no-fund] [--dry-run] 1.256 npm error [-w|--workspace [-w|--workspace ...]] 1.256 npm error [-ws|--workspaces] [--include-workspace-root] [--install-links] 1.256 npm error 1.256 npm error aliases: clean-install, ic, install-clean, isntall-clean 1.256 npm error 1.256 npm error Run "npm help ci" for more info 1.260 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-04-18T19_19_21_095Z-debug-0.log
+
+Dockerfile:4
+2 | WORKDIR /app 3 | COPY package*.json ./ 4 | >>> RUN npm ci --only=production 5 | COPY . . 6 | CMD ["node", "src/index.js"]
+target parcel-service: failed to solve: process "/bin/sh -c npm ci --only=production" did not complete successfully: exit code: 1
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/y739ocfdo090xsgi46t805lx2
+
+
+## second fix
+
+docker-compose up --build
+[+] Building 3.4s (44/52)                                                                                                                                                         
  => [internal] load local bake definitions                                                                                                                                   0.0s
  => => reading from stdin 3.14kB                                                                                                                                             0.0s
- => [matching-service internal] load build definition from Dockerfile                                                                                                        0.0s
+ => [trip-service internal] load build definition from Dockerfile                                                                                                            0.0s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
  => [frontend internal] load build definition from Dockerfile.dev                                                                                                            0.0s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
- => [api-gateway internal] load build definition from Dockerfile                                                                                                             0.0s
- => => transferring dockerfile: 274B                                                                                                                                         0.0s
- => [notification-service internal] load build definition from Dockerfile                                                                                                    0.0s
+ => [api-gateway internal] load build definition from Dockerfile                                                                                                             0.1s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
  => [parcel-service internal] load build definition from Dockerfile                                                                                                          0.0s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
+ => [matching-service internal] load build definition from Dockerfile                                                                                                        0.0s
+ => => transferring dockerfile: 274B                                                                                                                                         0.0s
+ => [user-service internal] load build definition from Dockerfile                                                                                                            0.0s
+ => => transferring dockerfile: 274B                                                                                                                                         0.0s
  => [auth-service internal] load build definition from Dockerfile                                                                                                            0.1s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
- => [trip-service internal] load build definition from Dockerfile                                                                                                            0.1s
+ => [notification-service internal] load build definition from Dockerfile                                                                                                    0.1s
  => => transferring dockerfile: 274B                                                                                                                                         0.0s
- => [user-service internal] load build definition from Dockerfile                                                                                                            0.1s
- => => transferring dockerfile: 274B                                                                                                                                         0.0s
- => [notification-service internal] load metadata for docker.io/library/node:20-alpine                                                                                       0.6s
- => [trip-service internal] load .dockerignore                                                                                                                               0.1s
- => => transferring context: 2B                                                                                                                                              0.0s
- => [frontend internal] load .dockerignore                                                                                                                                   0.0s
- => => transferring context: 2B                                                                                                                                              0.0s
- => [notification-service internal] load .dockerignore                                                                                                                       0.1s
- => => transferring context: 2B                                                                                                                                              0.0s
- => [auth-service internal] load .dockerignore                                                                                                                               0.0s
- => => transferring context: 2B                                                                                                                                              0.0s
- => [matching-service internal] load .dockerignore                                                                                                                           0.1s
- => => transferring context: 2B                                                                                                                                              0.0s
+ => [api-gateway internal] load metadata for docker.io/library/node:20-alpine                                                                                                0.6s
  => [api-gateway internal] load .dockerignore                                                                                                                                0.0s
+ => => transferring context: 2B                                                                                                                                              0.0s
+ => [trip-service internal] load .dockerignore                                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                                              0.0s
+ => [notification-service internal] load .dockerignore                                                                                                                       0.0s
  => => transferring context: 2B                                                                                                                                              0.0s
  => [user-service internal] load .dockerignore                                                                                                                               0.1s
  => => transferring context: 2B                                                                                                                                              0.0s
- => [parcel-service internal] load .dockerignore                                                                                                                             0.0s
+ => [auth-service internal] load .dockerignore                                                                                                                               0.0s
  => => transferring context: 2B                                                                                                                                              0.0s
- => [notification-service 1/5] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293                                 0.0s
+ => [frontend internal] load .dockerignore                                                                                                                                   0.1s
+ => => transferring context: 2B                                                                                                                                              0.0s
+ => [parcel-service internal] load .dockerignore                                                                                                                             0.1s
+ => => transferring context: 2B                                                                                                                                              0.0s
+ => [matching-service internal] load .dockerignore                                                                                                                           0.0s
+ => => transferring context: 2B                                                                                                                                              0.0s
+ => [auth-service 1/5] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293                                         0.0s
+ => [matching-service internal] load build context                                                                                                                           0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
+ => [api-gateway internal] load build context                                                                                                                                0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
+ => [notification-service internal] load build context                                                                                                                       0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
  => [frontend internal] load build context                                                                                                                                   0.1s
- => => transferring context: 112.95kB                                                                                                                                        0.0s
+ => => transferring context: 5.79kB                                                                                                                                          0.0s
  => [parcel-service internal] load build context                                                                                                                             0.0s
- => => transferring context: 10.08kB                                                                                                                                         0.0s
- => [matching-service internal] load build context                                                                                                                           0.1s
- => => transferring context: 9.47kB                                                                                                                                          0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
  => [trip-service internal] load build context                                                                                                                               0.1s
- => => transferring context: 8.87kB                                                                                                                                          0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
  => [user-service internal] load build context                                                                                                                               0.1s
- => => transferring context: 9.88kB                                                                                                                                          0.0s
- => [api-gateway internal] load build context                                                                                                                                0.1s
- => => transferring context: 10.59kB                                                                                                                                         0.0s
- => [auth-service internal] load build context                                                                                                                               0.1s
- => => transferring context: 10.85kB                                                                                                                                         0.0s
- => [notification-service internal] load build context                                                                                                                       0.1s
- => => transferring context: 12.66kB                                                                                                                                         0.0s
- => CACHED [parcel-service 2/5] WORKDIR /app                                                                                                                                 0.0s
- => [matching-service 3/5] COPY package*.json ./                                                                                                                             0.1s
- => [parcel-service 3/5] COPY package*.json ./                                                                                                                               0.0s
- => [frontend 3/5] COPY package*.json ./                                                                                                                                     0.1s
- => [user-service 3/5] COPY package*.json ./                                                                                                                                 0.1s
- => [api-gateway 3/5] COPY package*.json ./                                                                                                                                  0.1s
- => [notification-service 3/5] COPY package*.json ./                                                                                                                         0.1s
- => [auth-service 3/5] COPY package*.json ./                                                                                                                                 0.1s
- => [trip-service 3/5] COPY package*.json ./                                                                                                                                 0.1s
- => ERROR [parcel-service 4/5] RUN npm ci --only=production                                                                                                                  1.3s
- => CANCELED [matching-service 4/5] RUN npm ci --only=production                                                                                                             1.5s
- => CANCELED [frontend 4/5] RUN npm install                                                                                                                                  1.5s
- => CANCELED [notification-service 4/5] RUN npm ci --only=production                                                                                                         1.5s
- => CANCELED [api-gateway 4/5] RUN npm ci --only=production                                                                                                                  1.5s
- => CANCELED [auth-service 4/5] RUN npm ci --only=production                                                                                                                 1.5s
- => CANCELED [user-service 4/5] RUN npm ci --only=production                                                                                                                 1.5s
- => CANCELED [trip-service 4/5] RUN npm ci --only=production                                                                                                                 1.5s
+ => => transferring context: 578B                                                                                                                                            0.0s
+ => [auth-service internal] load build context                                                                                                                               0.0s
+ => => transferring context: 578B                                                                                                                                            0.0s
+ => CACHED [frontend 2/5] WORKDIR /app                                                                                                                                       0.0s
+ => CACHED [matching-service 3/5] COPY package*.json ./                                                                                                                      0.0s
+ => CACHED [parcel-service 3/5] COPY package*.json ./                                                                                                                        0.0s
+ => CACHED [auth-service 3/5] COPY package*.json ./                                                                                                                          0.0s
+ => CANCELED [auth-service 4/5] RUN npm ci --only=production                                                                                                                 1.7s
+ => ERROR [matching-service 4/5] RUN npm ci --only=production                                                                                                                1.5s
+ => CACHED [api-gateway 3/5] COPY package*.json ./                                                                                                                           0.0s
+ => CANCELED [api-gateway 4/5] RUN npm ci --only=production                                                                                                                  1.7s
+ => ERROR [parcel-service 4/5] RUN npm ci --only=production                                                                                                                  1.6s
+ => CACHED [notification-service 3/5] COPY package*.json ./                                                                                                                  0.0s
+ => CACHED [user-service 3/5] COPY package*.json ./                                                                                                                          0.0s
+ => CANCELED [user-service 4/5] RUN npm ci --only=production                                                                                                                 1.7s
+ => CACHED [trip-service 3/5] COPY package*.json ./                                                                                                                          0.0s
+ => CANCELED [trip-service 4/5] RUN npm ci --only=production                                                                                                                 1.7s
+ => CACHED [frontend 3/5] COPY package*.json ./                                                                                                                              0.0s
+ => CANCELED [frontend 4/5] RUN npm install                                                                                                                                  1.7s
+ => ERROR [notification-service 4/5] RUN npm ci --only=production                                                                                                            1.5s
+------
+ > [matching-service 4/5] RUN npm ci --only=production:
+0.487 npm warn config only Use `--omit=dev` to omit dev dependencies from the install.
+1.465 npm error code EUSAGE
+1.468 npm error
+1.468 npm error The `npm ci` command can only install with an existing package-lock.json or
+1.468 npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or
+1.468 npm error later to generate a package-lock.json file, then try again.
+1.468 npm error
+1.468 npm error Clean install a project
+1.468 npm error
+1.468 npm error Usage:
+1.468 npm error npm ci
+1.468 npm error
+1.468 npm error Options:
+1.468 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+1.468 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+1.468 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+1.468 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+1.468 npm error [--no-bin-links] [--no-fund] [--dry-run]
+1.468 npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+1.468 npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+1.468 npm error
+1.468 npm error aliases: clean-install, ic, install-clean, isntall-clean
+1.468 npm error
+1.468 npm error Run "npm help ci" for more info
+1.472 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-04-18T19_21_19_080Z-debug-0.log
+------
 ------
  > [parcel-service 4/5] RUN npm ci --only=production:
-0.456 npm warn config only Use `--omit=dev` to omit dev dependencies from the install.
-1.255 npm error code EUSAGE
-1.256 npm error
-1.256 npm error The `npm ci` command can only install with an existing package-lock.json or
-1.256 npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or
-1.256 npm error later to generate a package-lock.json file, then try again.
-1.256 npm error
-1.256 npm error Clean install a project
-1.256 npm error
-1.256 npm error Usage:
-1.256 npm error npm ci
-1.256 npm error
-1.256 npm error Options:
-1.256 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
-1.256 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
-1.256 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
-1.256 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
-1.256 npm error [--no-bin-links] [--no-fund] [--dry-run]
-1.256 npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
-1.256 npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
-1.256 npm error
-1.256 npm error aliases: clean-install, ic, install-clean, isntall-clean
-1.256 npm error
-1.256 npm error Run "npm help ci" for more info
-1.260 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-04-18T19_19_21_095Z-debug-0.log
+0.586 npm warn config only Use `--omit=dev` to omit dev dependencies from the install.
+1.535 npm error code EUSAGE
+1.536 npm error
+1.536 npm error The `npm ci` command can only install with an existing package-lock.json or
+1.536 npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or
+1.536 npm error later to generate a package-lock.json file, then try again.
+1.536 npm error
+1.536 npm error Clean install a project
+1.536 npm error
+1.536 npm error Usage:
+1.536 npm error npm ci
+1.536 npm error
+1.536 npm error Options:
+1.536 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+1.536 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+1.536 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+1.536 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+1.536 npm error [--no-bin-links] [--no-fund] [--dry-run]
+1.536 npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+1.536 npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+1.536 npm error
+1.536 npm error aliases: clean-install, ic, install-clean, isntall-clean
+1.536 npm error
+1.536 npm error Run "npm help ci" for more info
+1.540 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-04-18T19_21_19_179Z-debug-0.log
+------
+------
+ > [notification-service 4/5] RUN npm ci --only=production:
+0.432 npm warn config only Use `--omit=dev` to omit dev dependencies from the install.
+1.413 npm error code EUSAGE
+1.414 npm error
+1.414 npm error The `npm ci` command can only install with an existing package-lock.json or
+1.414 npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or
+1.414 npm error later to generate a package-lock.json file, then try again.
+1.414 npm error
+1.414 npm error Clean install a project
+1.414 npm error
+1.414 npm error Usage:
+1.414 npm error npm ci
+1.414 npm error
+1.414 npm error Options:
+1.414 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+1.414 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+1.414 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+1.414 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+1.414 npm error [--no-bin-links] [--no-fund] [--dry-run]
+1.414 npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+1.414 npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+1.414 npm error
+1.414 npm error aliases: clean-install, ic, install-clean, isntall-clean
+1.414 npm error
+1.414 npm error Run "npm help ci" for more info
+1.419 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-04-18T19_21_19_033Z-debug-0.log
 ------
 Dockerfile:4
 --------------------
@@ -327,6 +392,19 @@ Dockerfile:4
    5 |     COPY . .
    6 |     CMD ["node", "src/index.js"]
 --------------------
-target parcel-service: failed to solve: process "/bin/sh -c npm ci --only=production" did not complete successfully: exit code: 1
+target notification-service: failed to solve: process "/bin/sh -c npm ci --only=production" did not complete successfully: exit code: 1
 
-View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/y739ocfdo090xsgi46t805lx2
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/gnex7fm2lg5qdb6i8b3p59rmh
+
+
+#### comment corriger les erreurs
+
+L'erreur est claire : npm ci nécessite un package-lock.json qui n'existe pas. Il faut remplacer npm ci par npm install dans tous les Dockerfiles.Ran 4 commands, read a fileRan 4 commands, read a fileCause du problème : npm ci exige un fichier package-lock.json déjà généré, qui n'était pas dans le projet.
+Correction appliquée dans tous les Dockerfiles :
+dockerfile# Avant (erreur)
+RUN npm ci --only=production
+
+# Après (corrigé)
+RUN npm install --omit=dev
+npm install génère le package-lock.json lui-même au moment du build. --omit=dev exclut les dépendances de développement comme --only=production le faisait.
+Téléchargez le ZIP, extrayez et relancez :
