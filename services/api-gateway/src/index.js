@@ -46,8 +46,17 @@ const SERVICES = {
 // ================================================================
 
 app.use(helmet({ contentSecurityPolicy: false }))
+
+// CORS — accepte localhost:3000 ET l'IP Docker en dev
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, cb) => {
+    // Accepte toutes les origines localhost/127.0.0.1 en dev
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return cb(null, true)
+    }
+    // En prod, restreindre à FRONTEND_URL
+    cb(null, origin === process.env.FRONTEND_URL)
+  },
   credentials: true,
 }))
 app.use(express.json())
@@ -113,12 +122,34 @@ function proxy(target, pathRewrite) {
       error: (err, req, res) => {
         console.error(`\x1b[31m[GW] Proxy error → ${target}:\x1b[0m`, err.message)
         if (!res.headersSent) {
-          res.status(503).json({ success: false, error: 'Service temporairement indisponible' })
+          res.status(503).json({
+            success: false,
+            error: `Service temporairement indisponible (${err.code || err.message})`,
+          })
         }
+      },
+      proxyReq: (proxyReq, req) => {
+        // Log ce qui est envoyé au service
+        console.log(`\x1b[36m[GW]\x1b[0m → ${target}${req.path}`)
       },
     },
   })
 }
+
+// ---- Endpoint de debug (vérifier que les services répondent) ----
+app.get('/debug/services', async (req, res) => {
+  const results = {}
+  for (const [name, url] of Object.entries(SERVICES)) {
+    try {
+      const r = await fetch(`${url}/health`, { signal: AbortSignal.timeout(3000) })
+      const body = await r.json().catch(() => ({}))
+      results[name] = { status: r.ok ? 'ok' : 'error', code: r.status, ...body }
+    } catch (err) {
+      results[name] = { status: 'down', error: err.message }
+    }
+  }
+  res.json(results)
+})
 
 // ================================================================
 //  ROUTES PUBLIQUES (sans JWT)
